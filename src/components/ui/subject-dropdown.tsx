@@ -59,10 +59,20 @@ export function SubjectDropdown<T extends string>({
     const menuHeight = 280;
     const gap = 8;
     const placeTop = window.innerHeight - rect.bottom < menuHeight + gap;
+    let top = placeTop ? rect.top - gap : rect.bottom + gap;
+    let left = rect.left;
+    const width = Math.max(rect.width, 220);
+
+    // Clamp to viewport so the menu doesn't render off-screen (fixes clipping in transformed parents)
+    const maxLeft = Math.max(8, window.innerWidth - width - 8);
+    left = Math.min(Math.max(8, left), maxLeft);
+    const maxTop = Math.max(8, window.innerHeight - menuHeight - 8);
+    top = Math.min(Math.max(8, top), maxTop);
+
     setPosition({
-      top: placeTop ? rect.top - gap : rect.bottom + gap,
-      left: rect.left,
-      width: Math.max(rect.width, 220),
+      top,
+      left,
+      width,
       placement: placeTop ? "top" : "bottom",
     });
   }
