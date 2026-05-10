@@ -68,6 +68,10 @@ export function SubjectDropdown<T extends string>({
   }
 
   function openMenu() {
+    // compute position synchronously so the portal menu can be positioned immediately
+    try {
+      updatePosition();
+    } catch {}
     const selectedIndex = Math.max(
       0,
       filteredOptions.findIndex((option) => option.value === value),
