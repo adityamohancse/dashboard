@@ -3,7 +3,8 @@ export type SubjectKey =
   | "business-studies"
   | "economics"
   | "english-core"
-  | "computer-science";
+  | "computer-science"
+  | "applied-math";
 
 export type CompletionStatus = "Completed" | "Partial" | "Pending";
 

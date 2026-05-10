@@ -137,7 +137,7 @@ export function getFocusDistribution(dailyLogs: DailyLog[]) {
   });
 
   const grandTotal = totalsBySubject.reduce((sum, item) => sum + item.value, 0);
-  const colors = ["#06b6d4", "#a855f7", "#10b981", "#f97316", "#eab308"];
+  const colors = ["#06b6d4", "#a855f7", "#10b981", "#f97316", "#eab308", "#6366f1"];
   return totalsBySubject.map((item, idx) => ({
     name: item.name,
     value: grandTotal ? Math.round((item.value / grandTotal) * 100) : 0,

@@ -41,7 +41,7 @@ const bentoItems = [
   },
   {
     title: "Academic OS for Commerce",
-    text: "Accountancy, BST, Economics, English, and CS tracked in one premium command center.",
+    text: "Accountancy, BST, Economics, English, CS, and Applied Math tracked in one premium command center.",
     icon: CalendarClock,
     span: "md:col-span-2",
   },

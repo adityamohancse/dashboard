@@ -109,11 +109,12 @@ export function ProductivityMixChart({
   const isMounted = useIsMounted();
 
   const defaultData = data || [
-    { name: "Accountancy", value: 20, color: "#06b6d4" },
-    { name: "Business Studies", value: 25, color: "#a855f7" },
-    { name: "Economics", value: 20, color: "#10b981" },
-    { name: "English", value: 18, color: "#f97316" },
-    { name: "Computer Science", value: 17, color: "#eab308" },
+    { name: "Accountancy", value: 17, color: "#06b6d4" },
+    { name: "Business Studies", value: 20, color: "#a855f7" },
+    { name: "Economics", value: 17, color: "#10b981" },
+    { name: "English", value: 15, color: "#f97316" },
+    { name: "Computer Science", value: 15, color: "#eab308" },
+    { name: "Applied Math", value: 16, color: "#6366f1" },
   ];
   const defaultTotal = totalFocusHours ?? 24.5;
   const defaultStrongest = strongest ?? "Business Studies";
@@ -130,6 +131,7 @@ export function ProductivityMixChart({
     Economics: "📊",
     English: "📖",
     "Computer Science": "💻",
+    "Applied Math": "📐",
   };
 
   return (
@@ -339,11 +341,12 @@ export function CompactFocusWidget({
   data?: FocusPoint[];
 } = {}) {
   const defaultData = data || [
-    { name: "Accountancy", value: 20, color: "#06b6d4" },
-    { name: "Business Studies", value: 25, color: "#a855f7" },
-    { name: "Economics", value: 20, color: "#10b981" },
-    { name: "English", value: 18, color: "#f97316" },
-    { name: "Computer Science", value: 17, color: "#eab308" },
+    { name: "Accountancy", value: 17, color: "#06b6d4" },
+    { name: "Business Studies", value: 20, color: "#a855f7" },
+    { name: "Economics", value: 17, color: "#10b981" },
+    { name: "English", value: 15, color: "#f97316" },
+    { name: "Computer Science", value: 15, color: "#eab308" },
+    { name: "Applied Math", value: 16, color: "#6366f1" },
   ];
 
   const subjectIcons: Record<string, string> = {
@@ -352,6 +355,7 @@ export function CompactFocusWidget({
     Economics: "📊",
     English: "📖",
     "Computer Science": "💻",
+    "Applied Math": "📐",
   };
 
   return (

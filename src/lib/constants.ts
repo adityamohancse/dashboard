@@ -36,6 +36,13 @@ export const SUBJECTS: SubjectMeta[] = [
     color: "bg-rose-100 text-rose-800",
     gradient: "from-rose-200 to-orange-100",
   },
+  {
+    key: "applied-math",
+    name: "Applied Math",
+    faculty: "Nitin Sir",
+    color: "bg-indigo-100 text-indigo-800",
+    gradient: "from-indigo-200 to-blue-100",
+  },
 ];
 
 export const SUBJECT_MAP: Record<SubjectKey, SubjectMeta> = SUBJECTS.reduce(

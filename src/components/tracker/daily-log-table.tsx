@@ -27,6 +27,7 @@ import { DropdownSelect } from "@/components/ui/dropdown-select";
 import { StatusPill } from "./status-pill";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import { exportToExcel, exportToPDF } from "@/lib/export";
+import { SubjectDropdown } from "@/components/ui/subject-dropdown";
 
 const pageSize = 7;
 const today = format(new Date(), "yyyy-MM-dd");
@@ -36,6 +37,11 @@ const statusOptions = [
   { value: "Partial", label: "Partial" },
   { value: "Pending", label: "Pending" },
 ] as const;
+
+const subjectOptions: { value: SubjectKey; label: string }[] = SUBJECTS.map((subject) => ({
+  value: subject.key as SubjectKey,
+  label: subject.name,
+}));
 
 const quickFilterOptions = [
   { key: "all", label: "All Logs" },
@@ -107,6 +113,13 @@ const subjectVisuals: Record<
     cardGlow: "shadow-yellow-500/20",
     cardTint: "from-yellow-500/20 to-amber-500/10",
   },
+  "applied-math": {
+    icon: Calculator,
+    ringFrom: "#6366f1",
+    ringTo: "#3b82f6",
+    cardGlow: "shadow-indigo-500/20",
+    cardTint: "from-indigo-500/20 to-blue-500/10",
+  },
 };
 
 function statusSelectClass(status: DailyLog["notesCompleted"]) {
@@ -122,7 +135,7 @@ function statusSelectClass(status: DailyLog["notesCompleted"]) {
 export function DailyLogTable() {
   const [logs, setLogs] = useState<DailyLog[]>(() => loadData<DailyLog>("dailyLogs"));
   const [query, setQuery] = useState("");
-  const [subjectFilter, setSubjectFilter] = useState<string>("all");
+  const [subjectFilter, setSubjectFilter] = useState<SubjectKey | "all">("all");
   const [quickFilter, setQuickFilter] = useState<(typeof quickFilterOptions)[number]["key"]>("all");
   const [page, setPage] = useState(1);
   const [draft, setDraft] = useState<DailyLog>(emptyLog);
@@ -292,7 +305,7 @@ export function DailyLogTable() {
         <Card className="border-white/10 bg-white/[0.06] p-4">
           <p className="text-xs text-slate-400">Subject Progress</p>
           <div className="mt-2 flex items-center gap-1 overflow-auto">
-            {subjectProgress.slice(0, 5).map((subject) => (
+            {subjectProgress.map((subject) => (
               <div
                 key={subject.key}
                 className="rounded-lg border border-white/10 bg-black/20 px-2 py-1 text-center"
@@ -310,26 +323,19 @@ export function DailyLogTable() {
           <Plus size={14} className="text-cyan-300" />
           <p className="text-sm font-semibold text-white">Add study log</p>
         </div>
-        <div className="grid gap-3 md:grid-cols-6">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-12">
           <Input
             value={draft.chapterTopic}
             onChange={(e) => setDraft((d) => ({ ...d, chapterTopic: e.target.value }))}
             placeholder="Chapter / Topic covered"
-            className="h-10 rounded-xl border-white/10 bg-black/25 text-slate-100 placeholder:text-slate-500 md:col-span-2"
+            className="h-11 rounded-2xl border-white/10 bg-black/25 px-3.5 text-slate-100 placeholder:text-slate-500 md:col-span-2 xl:col-span-4"
           />
-          <Select
+          <SubjectDropdown
             value={draft.subject}
-            onChange={(e) =>
-              setDraft((d) => ({ ...d, subject: e.target.value as SubjectKey }))
-            }
-            className="h-10 rounded-xl border-white/10 bg-black/25 text-slate-100"
-          >
-            {SUBJECTS.map((subject) => (
-              <option key={subject.key} value={subject.key}>
-                {subject.name}
-              </option>
-            ))}
-          </Select>
+            onChange={(subject) => setDraft((d) => ({ ...d, subject }))}
+            options={subjectOptions}
+            className="md:col-span-1 xl:col-span-3"
+          />
           <Input
             type="number"
             min={0}
@@ -339,17 +345,17 @@ export function DailyLogTable() {
               setDraft((d) => ({ ...d, studyHours: Number(e.target.value) }))
             }
             placeholder="Study hours"
-            className="h-10 rounded-xl border-white/10 bg-black/25 text-slate-100 placeholder:text-slate-500"
+            className="h-11 rounded-2xl border-white/10 bg-black/25 px-3.5 text-slate-100 placeholder:text-slate-500 md:col-span-1 xl:col-span-2"
           />
           <Input
             type="date"
             value={draft.date}
             onChange={(e) => setDraft((d) => ({ ...d, date: e.target.value }))}
-            className="h-10 rounded-xl border-white/10 bg-black/25 text-slate-100"
+            className="h-11 rounded-2xl border-white/10 bg-black/25 px-3.5 text-slate-100 md:col-span-1 xl:col-span-2"
           />
           <Button
             onClick={addLog}
-            className="h-10 rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 text-white hover:brightness-105"
+            className="h-11 rounded-2xl bg-gradient-to-r from-cyan-400 to-violet-500 text-white hover:brightness-105 md:col-span-2 xl:col-span-1"
           >
             Add Entry
           </Button>
@@ -372,7 +378,7 @@ export function DailyLogTable() {
           </div>
           <Select
             value={subjectFilter}
-            onChange={(e) => setSubjectFilter(e.target.value)}
+            onChange={(e) => setSubjectFilter(e.target.value as SubjectKey | "all")}
             className="h-10 w-48 rounded-xl border-white/10 bg-black/25 text-slate-100"
           >
             <option value="all">All Subjects</option>

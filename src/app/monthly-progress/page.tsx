@@ -45,6 +45,7 @@ const subjectVisuals: Record<
   economics: { icon: Landmark, from: "#34d399", to: "#22c55e" },
   "english-core": { icon: BookOpenCheck, from: "#fb923c", to: "#f59e0b" },
   "computer-science": { icon: Code2, from: "#facc15", to: "#f59e0b" },
+  "applied-math": { icon: Calculator, from: "#6366f1", to: "#3b82f6" },
 };
 
 function getDayLabel(dateString: string) {
