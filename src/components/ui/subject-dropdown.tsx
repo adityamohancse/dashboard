@@ -181,80 +181,164 @@ export function SubjectDropdown<T extends string>({
 
       <AnimatePresence>
         {open
-          ? createPortal(
-              <motion.div
-                ref={menuRef}
-                role="listbox"
-                initial={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
-                transition={{ duration: 0.16, ease: "easeOut" }}
-                className={cn(
-                  "fixed z-[140] overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
-                  menuClassName,
-                )}
-                style={{
-                  top: position.placement === "bottom" ? position.top : undefined,
-                  bottom:
-                    position.placement === "top"
-                      ? window.innerHeight - position.top
-                      : undefined,
-                  left: position.left,
-                  width: position.width,
-                }}
-              >
-                <div className="border-b border-white/10 p-2.5">
-                  <div className="relative">
-                    <Search
-                      size={14}
-                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                    />
-                    <input
-                      ref={searchRef}
-                      value={query}
-                      onChange={(event) => setQuery(event.target.value)}
-                      placeholder={searchPlaceholder}
-                      className="h-10 w-full rounded-xl border border-cyan-300/20 bg-slate-900/65 pl-9 pr-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50 focus:ring-2 focus:ring-cyan-300/35"
-                    />
-                  </div>
-                </div>
-                <div className="max-h-64 overflow-y-auto p-1.5">
-                  {filteredOptions.length ? (
-                    filteredOptions.map((option, index) => {
-                      const isSelected = option.value === value;
-                      const isActive = index === activeIndex;
-                      return (
-                        <button
-                          key={option.value}
-                          type="button"
-                          role="option"
-                          aria-selected={isSelected}
-                          className={cn(
-                            "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm transition",
-                            isSelected
-                              ? "bg-cyan-400/15 text-cyan-100"
-                              : isActive
-                                ? "bg-slate-800/85 text-slate-100"
-                                : "text-slate-300 hover:bg-slate-800/70 hover:text-slate-100",
-                          )}
-                          onMouseEnter={() => setActiveIndex(index)}
-                          onClick={() => {
-                            onChange(option.value);
-                            closeMenu();
-                          }}
-                        >
-                          <span className="truncate">{option.label}</span>
-                          {isSelected ? <Check size={14} className="text-cyan-300" /> : null}
-                        </button>
-                      );
-                    })
-                  ) : (
-                    <div className="px-3 py-3 text-sm text-slate-400">No matching subjects</div>
+          ? (() => {
+              const menuElement = (
+                <motion.div
+                  ref={menuRef}
+                  role="listbox"
+                  initial={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
+                  transition={{ duration: 0.16, ease: "easeOut" }}
+                  className={cn(
+                    "fixed z-[140] overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                    menuClassName,
                   )}
-                </div>
-              </motion.div>,
-              document.body,
-            )
+                  style={{
+                    top: position.placement === "bottom" ? position.top : undefined,
+                    bottom:
+                      position.placement === "top"
+                        ? window.innerHeight - position.top
+                        : undefined,
+                    left: position.left,
+                    width: position.width,
+                  }}
+                >
+                  <div className="border-b border-white/10 p-2.5">
+                    <div className="relative">
+                      <Search
+                        size={14}
+                        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      />
+                      <input
+                        ref={searchRef}
+                        value={query}
+                        onChange={(event) => setQuery(event.target.value)}
+                        placeholder={searchPlaceholder}
+                        className="h-10 w-full rounded-xl border border-cyan-300/20 bg-slate-900/65 pl-9 pr-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50 focus:ring-2 focus:ring-cyan-300/35"
+                      />
+                    </div>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto p-1.5">
+                    {filteredOptions.length ? (
+                      filteredOptions.map((option, index) => {
+                        const isSelected = option.value === value;
+                        const isActive = index === activeIndex;
+                        return (
+                          <button
+                            key={option.value}
+                            type="button"
+                            role="option"
+                            aria-selected={isSelected}
+                            className={cn(
+                              "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm transition",
+                              isSelected
+                                ? "bg-cyan-400/15 text-cyan-100"
+                                : isActive
+                                  ? "bg-slate-800/85 text-slate-100"
+                                  : "text-slate-300 hover:bg-slate-800/70 hover:text-slate-100",
+                            )}
+                            onMouseEnter={() => setActiveIndex(index)}
+                            onClick={() => {
+                              onChange(option.value);
+                              closeMenu();
+                            }}
+                          >
+                            <span className="truncate">{option.label}</span>
+                            {isSelected ? <Check size={14} className="text-cyan-300" /> : null}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      <div className="px-3 py-3 text-sm text-slate-400">No matching subjects</div>
+                    )}
+                  </div>
+                </motion.div>
+              );
+
+              try {
+                return createPortal(menuElement, document.body);
+              } catch (e) {
+                // Inline fallback (absolute inside nearest positioned ancestor)
+                const inlineStyle = (() => {
+                  if (!triggerRef.current) return { display: "none" };
+                  const rect = triggerRef.current.getBoundingClientRect();
+                  const offsetParent = (triggerRef.current.offsetParent as HTMLElement) || document.body;
+                  const parentRect = offsetParent.getBoundingClientRect();
+                  const gap = 8;
+                  const top = position.placement === "bottom" ? rect.bottom - parentRect.top + gap : rect.top - parentRect.top - gap;
+                  const maxLeft = Math.max(8, (offsetParent.clientWidth || window.innerWidth) - position.width - 8);
+                  const left = Math.min(Math.max(8, rect.left - parentRect.left), maxLeft);
+                  return { position: "absolute", top, left, width: position.width };
+                })();
+
+                return (
+                  <motion.div
+                    ref={menuRef}
+                    role="listbox"
+                    initial={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
+                    transition={{ duration: 0.16, ease: "easeOut" }}
+                    className={cn(
+                      "absolute z-[140] overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                      menuClassName,
+                    )}
+                    style={inlineStyle}
+                  >
+                    <div className="border-b border-white/10 p-2.5">
+                      <div className="relative">
+                        <Search
+                          size={14}
+                          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                        />
+                        <input
+                          ref={searchRef}
+                          value={query}
+                          onChange={(event) => setQuery(event.target.value)}
+                          placeholder={searchPlaceholder}
+                          className="h-10 w-full rounded-xl border border-cyan-300/20 bg-slate-900/65 pl-9 pr-3 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-300/50 focus:ring-2 focus:ring-cyan-300/35"
+                        />
+                      </div>
+                    </div>
+                    <div className="max-h-64 overflow-y-auto p-1.5">
+                      {filteredOptions.length ? (
+                        filteredOptions.map((option, index) => {
+                          const isSelected = option.value === value;
+                          const isActive = index === activeIndex;
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              role="option"
+                              aria-selected={isSelected}
+                              className={cn(
+                                "flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm transition",
+                                isSelected
+                                  ? "bg-cyan-400/15 text-cyan-100"
+                                  : isActive
+                                    ? "bg-slate-800/85 text-slate-100"
+                                    : "text-slate-300 hover:bg-slate-800/70 hover:text-slate-100",
+                              )}
+                              onMouseEnter={() => setActiveIndex(index)}
+                              onClick={() => {
+                                onChange(option.value);
+                                closeMenu();
+                              }}
+                            >
+                              <span className="truncate">{option.label}</span>
+                              {isSelected ? <Check size={14} className="text-cyan-300" /> : null}
+                            </button>
+                          );
+                        })
+                      ) : (
+                        <div className="px-3 py-3 text-sm text-slate-400">No matching subjects</div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              }
+            })()
           : null}
       </AnimatePresence>
     </>
