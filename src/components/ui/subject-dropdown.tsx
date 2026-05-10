@@ -32,6 +32,9 @@ export function SubjectDropdown<T extends string>({
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
 
+  // Debug flag: toggle to show red outline and console logs when troubleshooting menu placement
+  const DEBUG_MENU = true;
+
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -81,7 +84,10 @@ export function SubjectDropdown<T extends string>({
     // compute position synchronously so the portal menu can be positioned immediately
     try {
       updatePosition();
-    } catch {}
+      if (DEBUG_MENU) console.debug('SubjectDropdown.openMenu computed position', { position });
+    } catch (e) {
+      if (DEBUG_MENU) console.error('SubjectDropdown.openMenu updatePosition failed', e);
+    }
     const selectedIndex = Math.max(
       0,
       filteredOptions.findIndex((option) => option.value === value),
