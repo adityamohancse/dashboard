@@ -34,6 +34,7 @@ export function SubjectDropdown<T extends string>({
 
   // Debug flag: toggle to show red outline and console logs when troubleshooting menu placement
   const DEBUG_MENU = true;
+  const debugClass = DEBUG_MENU ? "ring-2 ring-red-500/50" : "";
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -197,7 +198,8 @@ export function SubjectDropdown<T extends string>({
                   exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
                   transition={{ duration: 0.16, ease: "easeOut" }}
                   className={cn(
-                    "fixed z-[9999] pointer-events-auto overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                    "fixed z-[9999] pointer-events-auto overflow-visible rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                    debugClass,
                     menuClassName,
                   )}
                   style={{
