@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Commerce OS (PW UDAY 2027)
 
-## Getting Started
+Premium academic productivity website for **Class 11 CBSE Commerce** students.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js + React + TypeScript + Tailwind CSS
+- Framer Motion + Recharts
+- ShadCN-style reusable UI primitives
+- Node.js + Express backend scaffold
+- PostgreSQL/Supabase schema planning (Prisma + SQL)
+- Export reports with PDF/Excel
+
+## Core Features
+
+- Landing page with SaaS-style hero, feature sections, and CTA
+- Main dashboard with:
+  - Animated stat cards
+  - Circular progress rings
+  - Weekly consistency chart
+  - Productivity heatmap
+  - Smart widgets (quote, reminders, pending tasks, goals, suggestions, pomodoro)
+- Daily log tracker:
+  - Editable entries, add/delete
+  - Search + subject filters
+  - Sticky table header + pagination
+  - Subject color coding
+  - Auto-save with localStorage
+  - Export to PDF/Excel
+- Subject-wise tracker:
+  - Accountancy
+  - Business Studies
+  - Economics
+  - English Core
+  - Computer Science
+- Monthly progress, test tracker, backlog tracker
+- Revision management (calendar, reminders, streak)
+- Attendance tracker + goal tracker + badges/challenges
+- Responsive UI (desktop/tablet/mobile bottom navigation)
+- Dark mode + light mode
+
+## Project Structure
+
+```text
+src/
+  app/
+    dashboard/
+    daily-log/
+    subjects/
+    monthly-progress/
+    test-performance/
+    backlogs/
+    revision/
+    goals/
+    attendance/
+  components/
+    layout/
+    dashboard/
+    tracker/
+    subjects/
+    revision/
+    productivity/
+    ui/
+  lib/
+    analytics.ts
+    constants.ts
+    export.ts
+    mock-data.ts
+    storage.ts
+    types.ts
+server/
+  src/
+    routes/
+prisma/
+  schema.prisma
+db/
+  schema.sql
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open `http://localhost:3000`.
 
-## Learn More
+## Backend Scaffold
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run server:dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Server runs on `http://localhost:4000` with:
+- `GET /health`
+- `GET /api/dashboard-summary`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Planning
 
-## Deploy on Vercel
+- Prisma models: `User`, `Subject`, `DailyLog`, `Test`, `Revision`, `Attendance`, `Backlog`, `Goal`, `ProductivityAnalytics`
+- SQL blueprint: `db/schema.sql` for Supabase/PostgreSQL provisioning
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Authentication Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Planned integration:
+- Email login
+- Google OAuth
+- Recommended: Supabase Auth or NextAuth

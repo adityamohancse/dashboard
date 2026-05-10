@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String                @id @default(uuid())
+  email          String                @unique
+  fullName       String
+  batch          String                @default("PW UDAY 2027")
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  subjects       Subject[]
+  dailyLogs      DailyLog[]
+  tests          Test[]
+  revisions      Revision[]
+  attendance     Attendance[]
+  backlogs       Backlog[]
+  goals          Goal[]
+  analytics      ProductivityAnalytics[]
+}
+
+model Subject {
+  id              String   @id @default(uuid())
+  userId          String
+  name            String
+  faculty         String?
+  totalChapters   Int      @default(0)
+  completed       Int      @default(0)
+  pending         Int      @default(0)
+  revisionPercent Int      @default(0)
+  weakAreas       String?
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DailyLog {
+  id                 String   @id @default(uuid())
+  userId             String
+  date               DateTime
+  day                String
+  subject            String
+  chapterTopic       String
+  lectureType        String
+  facultyName        String
+  notesCompleted     String
+  questionsPracticed Int      @default(0)
+  homeworkDone       String
+  revisionStatus     String
+  doubts             String?
+  assignmentTest     String?
+  studyHours         Float    @default(0)
+  remarks            String?
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Test {
+  id                String   @id @default(uuid())
+  userId            String
+  date              DateTime
+  subject           String
+  testName          String
+  marksObtained     Int
+  totalMarks        Int
+  percentage        Float
+  mistakesToImprove String?
+  revisionRequired  String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Revision {
+  id        String   @id @default(uuid())
+  userId    String
+  date      DateTime
+  subject   String
+  topic     String
+  stage     String
+  status    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Attendance {
+  id      String   @id @default(uuid())
+  userId  String
+  date    DateTime
+  status  String
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Backlog {
+  id           String   @id @default(uuid())
+  userId       String
+  subject      String
+  pendingTopic String
+  reason       String?
+  priority     String
+  deadline     DateTime
+  status       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Goal {
+  id         String   @id @default(uuid())
+  userId     String
+  title      String
+  category   String
+  targetDate DateTime
+  progress   Int      @default(0)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProductivityAnalytics {
+  id                  String   @id @default(uuid())
+  userId              String
+  weekStartDate       DateTime
+  totalStudyHours     Float    @default(0)
+  productivityScore   Int      @default(0)
+  revisionCompletion  Int      @default(0)
+  attendancePercent   Int      @default(0)
+  testsAttempted      Int      @default(0)
+  studyStreak         Int      @default(0)
+  weakAreaPrediction  String?
+  recommendation      String?
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
