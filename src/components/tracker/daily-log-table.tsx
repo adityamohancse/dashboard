@@ -330,12 +330,15 @@ export function DailyLogTable() {
             placeholder="Chapter / Topic covered"
             className="h-11 rounded-2xl border-white/10 bg-black/25 px-3.5 text-slate-100 placeholder:text-slate-500 md:col-span-2 xl:col-span-4"
           />
-          <SubjectDropdown
-            value={draft.subject}
-            onChange={(subject) => setDraft((d) => ({ ...d, subject }))}
-            options={subjectOptions}
-            className="md:col-span-1 xl:col-span-3"
-          />
+          <div className="relative z-0 overflow-visible md:col-span-1 xl:col-span-3">
+            <SubjectDropdown
+              value={draft.subject}
+              onChange={(subject) => setDraft((d) => ({ ...d, subject }))}
+              options={subjectOptions}
+              className="w-full"
+              menuClassName="max-w-md"
+            />
+          </div>
           <Input
             type="number"
             min={0}

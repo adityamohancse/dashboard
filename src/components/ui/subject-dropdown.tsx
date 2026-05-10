@@ -172,7 +172,7 @@ export function SubjectDropdown<T extends string>({
         aria-expanded={open}
         aria-haspopup="listbox"
         className={cn(
-          "group flex h-11 w-full items-center justify-between rounded-2xl border border-cyan-300/20 bg-slate-950/55 px-3.5 text-left text-sm text-slate-100 backdrop-blur-xl transition duration-200 hover:border-cyan-300/45 hover:bg-slate-900/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 focus-visible:shadow-[0_0_0_3px_rgba(34,211,238,0.14)]",
+          "relative z-20 group flex h-11 w-full items-center justify-between rounded-2xl border border-cyan-300/20 bg-slate-950/55 px-3.5 text-left text-sm text-slate-100 backdrop-blur-xl transition duration-200 hover:border-cyan-300/45 hover:bg-slate-900/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60 focus-visible:shadow-[0_0_0_3px_rgba(34,211,238,0.14)]",
           className,
         )}
         onClick={() => (open ? closeMenu() : openMenu())}
@@ -197,7 +197,7 @@ export function SubjectDropdown<T extends string>({
                   exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
                   transition={{ duration: 0.16, ease: "easeOut" }}
                   className={cn(
-                    "fixed z-[140] overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                    "fixed z-[9999] pointer-events-auto overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
                     menuClassName,
                   )}
                   style={{
@@ -287,7 +287,7 @@ export function SubjectDropdown<T extends string>({
                     exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
                     transition={{ duration: 0.16, ease: "easeOut" }}
                     className={cn(
-                      "absolute z-[140] overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                      "absolute z-[9999] pointer-events-auto overflow-visible rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
                       menuClassName,
                     )}
                     style={inlineStyle}
