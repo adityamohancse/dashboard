@@ -337,6 +337,7 @@ export function DailyLogTable() {
               options={subjectOptions}
               className="w-full"
               menuClassName="max-w-md"
+              forceInline={true}
             />
           </div>
           <Input

@@ -19,6 +19,7 @@ export function SubjectDropdown<T extends string>({
   searchPlaceholder = "Search subject...",
   className,
   menuClassName,
+  forceInline = false,
 }: {
   value: T;
   options: readonly SubjectDropdownOption<T>[];
@@ -27,6 +28,7 @@ export function SubjectDropdown<T extends string>({
   searchPlaceholder?: string;
   className?: string;
   menuClassName?: string;
+  forceInline?: boolean;
 }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -45,6 +47,7 @@ export function SubjectDropdown<T extends string>({
     width: 220,
     placement: "bottom" as "bottom" | "top",
   });
+  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined);
 
   const selected = useMemo(
     () => options.find((option) => option.value === value),
@@ -63,22 +66,31 @@ export function SubjectDropdown<T extends string>({
     const menuHeight = 280;
     const gap = 8;
     const placeTop = window.innerHeight - rect.bottom < menuHeight + gap;
+    // viewport coords
     let top = placeTop ? rect.top - gap : rect.bottom + gap;
     let left = rect.left;
     const width = Math.max(rect.width, 220);
 
-    // Clamp to viewport so the menu doesn't render off-screen (fixes clipping in transformed parents)
+    // Clamp within viewport (viewport coords)
     const maxLeft = Math.max(8, window.innerWidth - width - 8);
     left = Math.min(Math.max(8, left), maxLeft);
     const maxTop = Math.max(8, window.innerHeight - menuHeight - 8);
     top = Math.min(Math.max(8, top), maxTop);
+
+    // Also compute page coordinates (for absolute positioning when portal is attached to body)
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    const scrollX = window.scrollX || window.pageXOffset || 0;
+    const pageTop = top + scrollY;
+    const pageLeft = left + scrollX;
 
     setPosition({
       top,
       left,
       width,
       placement: placeTop ? "top" : "bottom",
-    });
+      pageTop,
+      pageLeft,
+    } as any);
   }
 
   function openMenu() {
@@ -198,17 +210,14 @@ export function SubjectDropdown<T extends string>({
                   exit={{ opacity: 0, y: position.placement === "bottom" ? -6 : 6, scale: 0.98 }}
                   transition={{ duration: 0.16, ease: "easeOut" }}
                   className={cn(
-                    "fixed z-[9999] pointer-events-auto overflow-visible rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
+                    "absolute z-[9999] pointer-events-auto overflow-visible rounded-2xl border border-cyan-300/20 bg-slate-950/88 shadow-[0_18px_40px_rgba(2,6,23,0.65)] backdrop-blur-2xl",
                     debugClass,
                     menuClassName,
                   )}
                   style={{
-                    top: position.placement === "bottom" ? position.top : undefined,
-                    bottom:
-                      position.placement === "top"
-                        ? window.innerHeight - position.top
-                        : undefined,
-                    left: position.left,
+                    position: 'absolute',
+                    top: (position as any).pageTop,
+                    left: (position as any).pageLeft,
                     width: position.width,
                   }}
                 >
