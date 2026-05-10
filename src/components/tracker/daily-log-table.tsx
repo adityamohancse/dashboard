@@ -318,7 +318,7 @@ export function DailyLogTable() {
         </Card>
       </motion.div>
 
-      <Card className="border-white/10 bg-white/[0.06] p-4">
+      <Card className="relative z-30 overflow-visible border-white/10 bg-white/[0.06] p-4">
         <div className="mb-3 flex items-center gap-2">
           <Plus size={14} className="text-cyan-300" />
           <p className="text-sm font-semibold text-white">Add study log</p>
@@ -330,14 +330,12 @@ export function DailyLogTable() {
             placeholder="Chapter / Topic covered"
             className="h-11 rounded-2xl border-white/10 bg-black/25 px-3.5 text-slate-100 placeholder:text-slate-500 md:col-span-2 xl:col-span-4"
           />
-          <div className="relative z-0 overflow-visible md:col-span-1 xl:col-span-3">
+          <div className="relative z-40 overflow-visible md:col-span-1 xl:col-span-3">
             <SubjectDropdown
               value={draft.subject}
               onChange={(subject) => setDraft((d) => ({ ...d, subject }))}
               options={subjectOptions}
               className="w-full"
-              menuClassName="max-w-md"
-              forceInline={true}
             />
           </div>
           <Input
